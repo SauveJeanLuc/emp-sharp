@@ -18,7 +18,7 @@ public class EmployeeController : ControllerBase
         },
         new Employee
         {
-            Id = 1,
+            Id = 2,
             Name = " Kabeza Rebero ",
             FirstName = "Kabeza",
             LastName = "Rebero",
@@ -26,7 +26,7 @@ public class EmployeeController : ControllerBase
         },
     };
     
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<ActionResult<List<Employee>>> Get()
     {
         return Ok(_employees);
@@ -49,5 +49,33 @@ public class EmployeeController : ControllerBase
         _employees.Add(employee);
         return Ok(_employees);
     }
+
+    [HttpPut]
+    public async Task<ActionResult<Employee>> UpdateEmployee(Employee request)
+    {
+        var employee = _employees.Find(h => h.Id == request.Id);
+        if (employee == null)
+        {
+            return BadRequest("Employee to update does not exist.");
+        }
+        employee.Name = request.Name;
+        employee.FirstName = request.FirstName;
+        employee.LastName = request.LastName;
+        employee.Place = request.Place;
+
+        return Ok(employee);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
+    {
+        var employee = _employees.Find(h => h.Id == id);
+        if (employee == null)
+            return BadRequest("Employee not Found");
+
+        _employees.Remove(employee);
+        return Ok(employee);
+    }
+
 
 }
