@@ -15,7 +15,15 @@ public class EmployeeController : ControllerBase
             FirstName = "SAUVE",
             LastName = "Jean-Luc",
             Place = "Kigali"
-        }
+        },
+        new Employee
+        {
+            Id = 1,
+            Name = " Kabeza Rebero ",
+            FirstName = "Kabeza",
+            LastName = "Rebero",
+            Place = "Kabeza"
+        },
     };
     
     [HttpGet]
@@ -24,6 +32,17 @@ public class EmployeeController : ControllerBase
         return Ok(_employees);
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Employee>> Get(int id)
+    {
+        var employee = _employees.Find(h => h.Id == id);
+        
+        if (employee == null)
+            return BadRequest("Employee Not Found");
+        
+        return Ok(employee);
+    }
+    
     [HttpPost]
     public async Task<ActionResult<List<Employee>>> CreateEmployee(Employee employee)
     {
