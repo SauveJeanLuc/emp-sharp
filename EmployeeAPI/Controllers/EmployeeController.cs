@@ -6,21 +6,29 @@ namespace EmployeeAPI.Controllers;
 [ApiController]
 public class EmployeeController : ControllerBase
 {
-    [HttpGet]
-    public async Task<IActionResult> Get()
+    private static List<Employee> _employees = new List<Employee>
     {
-        var employees = new List<Employee>
+        new Employee
         {
-            new Employee
-            {
-                Id = 1,
-                Name = "SAUVE Jean-Luc ",
-                FirstName = "SAUVE",
-                LastName = "Jean-Luc",
-                Place = "Kigali"
-            }
-        };
-
-        return Ok(employees);
+            Id = 1,
+            Name = "SAUVE Jean-Luc ",
+            FirstName = "SAUVE",
+            LastName = "Jean-Luc",
+            Place = "Kigali"
+        }
+    };
+    
+    [HttpGet]
+    public async Task<ActionResult<List<Employee>>> Get()
+    {
+        return Ok(_employees);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<List<Employee>>> CreateEmployee(Employee employee)
+    {
+        _employees.Add(employee);
+        return Ok(_employees);
+    }
+
 }
