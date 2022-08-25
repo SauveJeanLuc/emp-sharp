@@ -41,7 +41,8 @@ public class EmployeeController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Employee>> Get(int id)
     {
-        var employee = _employees.Find(h => h.Id == id);
+        var employee = await _context.Employees.FindAsync(id);
+        // var employee = _employees.Find(h => h.Id == id);
         
         if (employee == null)
             return BadRequest("Employee Not Found");
