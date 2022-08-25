@@ -25,11 +25,17 @@ public class EmployeeController : ControllerBase
             Place = "Kabeza"
         },
     };
+
+    private readonly DataContext _context;
+    public EmployeeController(DataContext context)
+    {
+        _context = context;
+    }
     
     [HttpGet("all")]
     public async Task<ActionResult<List<Employee>>> Get()
     {
-        return Ok(_employees);
+        return Ok(await _context.Employees.ToListAsync());
     }
 
     [HttpGet("{id}")]
